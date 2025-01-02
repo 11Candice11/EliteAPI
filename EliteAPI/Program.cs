@@ -7,8 +7,19 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(); // Ensure this is included.
 builder.Services.AddSingleton<EliteManager>();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost8080",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:8080")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
 
 var app = builder.Build();
+app.UseCors("AllowLocalhost8080");
 
 // Enable Swagger
 if (app.Environment.IsDevelopment())
