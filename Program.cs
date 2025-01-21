@@ -20,7 +20,8 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowLocalhost8080",
         builder =>
         {
-            builder.WithOrigins("http://localhost:8080")
+            builder.WithOrigins("http://localhost:8080",
+                    "https://eliteui-gdbgddepedcagxgn.southafricanorth-01.azurewebsites.net/")
                 .AllowAnyHeader()
                 .AllowAnyMethod();
         });
