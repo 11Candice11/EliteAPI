@@ -1,0 +1,37 @@
+name: Build and Deploy .NET App to Azure
+
+on:
+  push:
+    branches:
+      - main # Trigger workflow on push to the main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the code
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # Step 2: Set up .NET Core
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '6.0' # Adjust to match your project's runtime
+
+      # Step 3: Build the project
+      - name: Build with dotnet
+        run: dotnet build --configuration Release
+
+      # Step 4: Publish the project
+      - name: Publish with dotnet
+        run: dotnet publish --configuration Release --output ./publish
+
+      # Step 5: Deploy to Azure
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: <your-azure-app-name> # Replace with your Azure Web App name
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: ./publish
