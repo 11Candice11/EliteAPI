@@ -1,14 +1,17 @@
 using System.Net.Http.Headers;
 using System.Text;
-using EliteAPI.Models.Request;
-using EliteAPI.Models.Response;
+using EliteService.Controller;
+using EliteService.EliteServiceManager.Models.DTO;
+using EliteService.EliteServiceManager.Models.Request;
+using EliteService.EliteServiceManager.Models.Response;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
-namespace EliteAPI.EliteAPI;
+namespace EliteService.EliteServiceManager;
 
-public class EliteManager(ILogger<EliteManager> logger) : IEliteManager
+public class EliteServiceManager(ILogger<EliteServiceManager> logger) : IEliteServiceManager
 {
-        private readonly ILogger<EliteManager> _logger = logger;
+    private readonly ILogger<EliteServiceManager> _logger = logger;
     const string BASE_URL_AUTHENTICATION = "https://morebo.elitewealth.biz/restApiAuthentication";
     const string API_KEY = "Q3NuWXrjNnB8szjXd7y8bt2TR4-DgFdkKQnj45jKc8xmMVbY6frwRkZXmYsqYrCcwQL";
     const string USER_NAME = "QGFgzP49w4DuqJmA"; //"WebServiceDemo";
@@ -63,48 +66,6 @@ public class EliteManager(ILogger<EliteManager> logger) : IEliteManager
                 return new ClientProfileResponse();
             }
     }
-
-    //
-    // public async Task<LoadClientResponse> LoadClient(LoadClientRequest clientRequest)
-    // {
-    //     var token = await GetToken();
-    //     var httpClient = new HttpClient()
-    //     {
-    //         BaseAddress = new Uri(BASE_URL_DATA + "/api/EntityCardChangeEntity/Search")
-    //     };
-    //     httpClient.DefaultRequestHeaders.Authorization =
-    //         new AuthenticationHeaderValue("Bearer", token.AccessToken);
-    //     httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-    //
-    //     var request = new LoadClientRequest()
-    //     {
-    //     };
-    //
-    //     // Serialize the request to JSON
-    //     var jsonRequest = JsonConvert.SerializeObject(request);
-    //     var httpContent = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
-    //
-    //     try
-    //     {
-    //         // Make the POST request
-    //         var response = httpClient.PostAsync("", httpContent).Result;
-    //
-    //         // Read the raw JSON response
-    //         var jsonResponse = response.Content.ReadAsStringAsync().Result;
-    //         var responseModel = JsonConvert.DeserializeObject<ClientProfileResponse>(jsonResponse);
-    //         // Print the raw response
-    //         Console.WriteLine("Raw JSON Response:");
-    //         Console.WriteLine(jsonResponse);
-    //         return responseModel;
-    //     }
-    //     catch (Exception ex)
-    //     {
-    //         // Handle any errors
-    //         Console.WriteLine($"An error occurred: {ex.Message}");
-    //         return new ClientProfileResponse();
-    //     }
-    // }
-    //
     private async Task<AuthenticationResponseModel> GetToken()
     {
         var httpClient = new HttpClient

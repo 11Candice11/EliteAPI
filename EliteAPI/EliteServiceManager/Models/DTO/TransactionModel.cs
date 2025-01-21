@@ -1,4 +1,5 @@
-namespace EliteAPI.Models;
+namespace EliteService.EliteServiceManager.Models.DTO;
+
 public class TransactionModel
 {
     public Guid PortfolioEntryId { get; set; }

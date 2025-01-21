@@ -1,4 +1,4 @@
-namespace EliteAPI.Models;
+namespace EliteService.EliteServiceManager.Models.DTO;
 
 public class EntityModel
 {

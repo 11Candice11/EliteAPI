@@ -1,12 +1,20 @@
-using EliteAPI.EliteAPI;
+using System.Text.Json.Serialization;
+using EliteService.EliteServiceManager;
+using Microsoft.AspNetCore.Diagnostics;
+using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddTransient<EliteServiceManager>();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddControllers()
+    .AddFluentValidation()
+    .AddJsonOptions(x => x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(); // Ensure this is included.
-builder.Services.AddSingleton<EliteManager>();
+builder.Services.AddHealthChecks();
+
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowLocalhost8080",
@@ -18,18 +26,24 @@ builder.Services.AddCors(options =>
         });
 });
 
+builder.Services.AddControllers();
+builder.Services.AddSwaggerGen();
+
 var app = builder.Build();
+app.MapControllers();
+app.UseRouting();
+
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
+});
+
+// Enable the CORS policy
 app.UseCors("AllowLocalhost8080");
 
-// Enable Swagger
-if (app.Environment.IsDevelopment())
+app.UseEndpoints(endpoints =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(); // Ensure this line is here.
-}
-
-app.UseRouting();
-app.UseCors();
-app.MapControllers();
-
+    endpoints.MapControllers();
+});
 app.Run();

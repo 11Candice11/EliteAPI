@@ -1,4 +1,8 @@
-namespace EliteAPI.Models.Request;
+
+using EliteService.EliteServiceManager.Models.DTO;
+
+namespace EliteService.EliteServiceManager.Models.Request;
+
 public class ClientProfileRequest
 {
     public string TransactionDateStart { get; set; }

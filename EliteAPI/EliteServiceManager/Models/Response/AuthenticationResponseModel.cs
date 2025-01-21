@@ -1,4 +1,5 @@
-namespace EliteAPI.Models.Response;
+namespace EliteService.EliteServiceManager.Models.Response;
+
 internal class AuthenticationResponseModel
 {
     public string AccessToken { get; set; }
