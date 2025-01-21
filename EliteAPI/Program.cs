@@ -5,10 +5,6 @@ using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// builder.AddConfiguration();
-// builder.ConfigureSecrets();
-// builder.ConfigureServices();
-// builder.AddAuth();
 builder.Services.AddTransient<EliteServiceManager>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllers()
@@ -16,19 +12,8 @@ builder.Services.AddControllers()
     .AddJsonOptions(x => x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
 builder.Services.AddEndpointsApiExplorer();
-// builder.ConfigureFluentbit();
 builder.Services.AddHealthChecks();
 
-// USE WHEN NOT LOCAL
-// builder.Services.AddCors(options =>
-// {
-//     options.AddDefaultPolicy(policy =>
-//     {
-//         policy.AllowAnyHeader();
-//         policy.AllowAnyMethod();
-//         policy.AllowCredentials();
-//     });
-// });
 
 builder.Services.AddCors(options =>
 {
@@ -45,11 +30,6 @@ builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-// app.UseSwagger();
-// app.UseRouting();
-// app.UseCors();
-// app.UseAuthentication();
-// app.UseAuthorization();
 app.MapControllers();
 app.UseRouting();
 
