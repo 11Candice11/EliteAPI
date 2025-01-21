@@ -17,11 +17,11 @@ builder.Services.AddHealthChecks();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowLocalhost8080",
+    options.AddPolicy("AllowSpecificOrigins",
         builder =>
         {
             builder.WithOrigins("http://localhost:8080",
-                    "https://eliteui-gdbgddepedcagxgn.southafricanorth-01.azurewebsites.net/")
+                    "https://eliteui-gdbgddepedcagxgn.southafricanorth-01.azurewebsites.net")
                 .AllowAnyHeader()
                 .AllowAnyMethod();
         });
@@ -41,7 +41,7 @@ app.UseSwaggerUI(c =>
 });
 
 // Enable the CORS policy
-app.UseCors("AllowLocalhost8080");
+app.UseCors("AllowSpecificOrigins");
 
 app.UseEndpoints(endpoints =>
 {
