@@ -656,11 +656,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/candicesiphone16/Documents/GitHub/EliteAPI/EliteAPI/EliteAPI.csproj",
+      "projectUniqueName": "/Users/candicesiphone16/Documents/GitHub/EliteAPI/EliteAPI.csproj",
       "projectName": "EliteAPI",
-      "projectPath": "/Users/candicesiphone16/Documents/GitHub/EliteAPI/EliteAPI/EliteAPI.csproj",
+      "projectPath": "/Users/candicesiphone16/Documents/GitHub/EliteAPI/EliteAPI.csproj",
       "packagesPath": "/Users/candicesiphone16/.nuget/packages/",
-      "outputPath": "/Users/candicesiphone16/Documents/GitHub/EliteAPI/EliteAPI/obj/",
+      "outputPath": "/Users/candicesiphone16/Documents/GitHub/EliteAPI/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/candicesiphone16/.nuget/NuGet/NuGet.Config"
