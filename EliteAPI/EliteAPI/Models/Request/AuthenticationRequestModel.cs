@@ -1,4 +1,5 @@
-namespace EliteAPI.Models.Request;
+namespace EliteService.EliteServiceManager.Models.Request;
+
 internal class AuthenticationRequestModel
 {
     public string Username { get; set; }

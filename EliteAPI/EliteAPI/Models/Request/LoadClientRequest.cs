@@ -1,4 +1,5 @@
-namespace EliteAPI.Models.Request;
+namespace EliteService.EliteServiceManager.Models.Request;
+
 public class LoadClientRequest
 {
     public bool IncludeDeletedEntities { get; set; }

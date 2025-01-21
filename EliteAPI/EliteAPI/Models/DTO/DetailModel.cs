@@ -1,4 +1,5 @@
-namespace EliteAPI.Models;
+namespace EliteService.EliteServiceManager.Models.DTO;
+
 public class DetailModel
 {
     public string InstrumentName { get; set; }
