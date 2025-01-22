@@ -16,7 +16,7 @@ public class EliteServiceManager : IEliteServiceManager
     private readonly ILogger<EliteServiceManager> _logger;
 
     const string BASE_URL_AUTHENTICATION = "https://morebo.elitewealth.biz/restApiAuthentication";
-    const string API_KEY = "Q3NuWXRjNnB8szjXd7y8bt2TR4-DgFdkKQnj45jKc8xmMVbY6frwRKzXmYsqYrCcwQL";
+    const string API_KEY = "Q3NuWXrjNnB8szjXd7y8bt2TR4-DgFdkKQnj45jKc8xmMVbY6frwRkZXmYsqYrCcwQL";
     const string USER_NAME = "QGFgzP49w4DuqJmA"; // "WebServiceDemo";
     private const string PASSWORD = "QrSzh93D4wNR4BEs"; // "Dem@nstrate13";
     const string BASE_URL_DATA = "https://morebo.elitewealth.biz";
@@ -139,5 +139,4 @@ public class EliteServiceManager : IEliteServiceManager
             return Convert.ToBase64String(bytes);
         }
     }
-
 }
