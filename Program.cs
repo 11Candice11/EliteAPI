@@ -27,10 +27,11 @@ builder.Services.AddCors(options =>
         });
 });
 
-builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSingleton<IEliteServiceManager, EliteServiceManager>();
 
 var app = builder.Build();
+
 app.MapControllers();
 app.UseRouting();
 

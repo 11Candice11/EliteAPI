@@ -5,20 +5,57 @@ using EliteService.EliteServiceManager.Models.DTO;
 using EliteService.EliteServiceManager.Models.Request;
 using EliteService.EliteServiceManager.Models.Response;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
 
 namespace EliteService.EliteServiceManager;
 
-public class EliteServiceManager(ILogger<EliteServiceManager> logger) : IEliteServiceManager
+public class EliteServiceManager : IEliteServiceManager
 {
-    private readonly ILogger<EliteServiceManager> _logger = logger;
-    const string BASE_URL_AUTHENTICATION = "https://morebo.elitewealth.biz/restApiAuthentication";
-    const string API_KEY = "Q3NuWXrjNnB8szjXd7y8bt2TR4-DgFdkKQnj45jKc8xmMVbY6frwRkZXmYsqYrCcwQL";
-    const string USER_NAME = "QGFgzP49w4DuqJmA"; //"WebServiceDemo";
-    private const string PASSWORD = "QrSzh93D4wNR4BEs"; //"Dem@nstrate13";
+    private readonly string _connectionString;
+    private readonly ILogger<EliteServiceManager> _logger;
 
+    const string BASE_URL_AUTHENTICATION = "https://morebo.elitewealth.biz/restApiAuthentication";
+    const string API_KEY = "Q3NuWXRjNnB8szjXd7y8bt2TR4-DgFdkKQnj45jKc8xmMVbY6frwRKzXmYsqYrCcwQL";
+    const string USER_NAME = "QGFgzP49w4DuqJmA"; // "WebServiceDemo";
+    private const string PASSWORD = "QrSzh93D4wNR4BEs"; // "Dem@nstrate13";
     const string BASE_URL_DATA = "https://morebo.elitewealth.biz";
 
+    public EliteServiceManager(ILogger<EliteServiceManager> logger, IConfiguration configuration)
+    {
+        _logger = logger;
+
+        // Retrieve the connection string from appsettings.json
+        _connectionString = configuration.GetConnectionString("DefaultConnection");
+    }
+
+    public async Task<bool> VerifyUserAsync(string username, string password)
+    {
+        try
+        {
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                string query = "SELECT COUNT(*) FROM Users WHERE Username = @Username AND PasswordHash = @PasswordHash";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Username", username);
+                    command.Parameters.AddWithValue("@PasswordHash", password);
+
+                    int count = (int)await command.ExecuteScalarAsync();
+                    return count > 0;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            return false;
+        }
+    }
+    
     // api/entitySummary
     public async Task<ClientProfileResponse> GetClientProfile(ClientProfileRequest clientProfileRequest)
     {
@@ -93,4 +130,14 @@ public class EliteServiceManager(ILogger<EliteServiceManager> logger) : IEliteSe
 
         return authenticationResponseModel;
     }
+    
+    private string HashPassword(string password)
+    {
+        using (var sha256 = System.Security.Cryptography.SHA256.Create())
+        {
+            var bytes = sha256.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            return Convert.ToBase64String(bytes);
+        }
+    }
+
 }
