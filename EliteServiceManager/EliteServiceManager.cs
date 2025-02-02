@@ -7,6 +7,9 @@ using EliteService.EliteServiceManager.Models.Response;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
+using System.Text.Json;
+using JsonSerializer = System.Text.Json.JsonSerializer;
+using JsonSerializerOptions = System.Text.Json.JsonSerializerOptions;
 
 namespace EliteService.EliteServiceManager;
 
@@ -88,13 +91,12 @@ public class EliteServiceManager : IEliteServiceManager
                 // Make the POST request
                 var response = httpClient.PostAsync("", httpContent).Result;
 
-                // Read the raw JSON response
-                var jsonResponse = response.Content.ReadAsStringAsync().Result;
-                var responseModel = JsonConvert.DeserializeObject<ClientProfileResponse>(jsonResponse);
+                var jsonResponse = await response.Content.ReadAsStringAsync();
+                
+                var responseObject = JsonSerializer.Deserialize<ClientProfileResponse>(jsonResponse);
+                
                 // Print the raw response
-                Console.WriteLine("Raw JSON Response:");
-                Console.WriteLine(jsonResponse);
-                return responseModel;
+                return responseObject;
             }
             catch (Exception ex)
             {

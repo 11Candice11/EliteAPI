@@ -21,4 +21,6 @@ public class DetailModel
     public string ReportNotes { get; set; }
     public List<PortfolioEntryTreeModel> PortfolioEntryTreeModels { get; set; }
     public List<TransactionModel> TransactionModels { get; set; }
+    public List<RootValueDateModel> RootValueDateModels { get; set; }
+
 }
