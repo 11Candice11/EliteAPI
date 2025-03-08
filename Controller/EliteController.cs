@@ -8,8 +8,9 @@ namespace EliteService.Controller;
 
 [Route($"api/elite/v1")]
 
-public class EliteController(EliteServiceManager.EliteServiceManager eliteService, ILogger<EliteController> logger) : ControllerBase
+public class EliteController(EliteServiceManager.EliteServiceManager eliteService, ILogger<EliteController> logger, DynamoDbService dynamoDbService) : ControllerBase
 {
+    private readonly DynamoDbService _dynamoDbService = dynamoDbService;
     private readonly ILogger<EliteController> _logger = logger;
     private readonly IEliteServiceManager _eliteService = eliteService;
     
@@ -48,4 +49,36 @@ public class EliteController(EliteServiceManager.EliteServiceManager eliteServic
         return Ok(responseModel);
     }
 
+    [HttpGet("{username}")]
+    public async Task<IActionResult> GetUser(string username)
+    {
+        var user = await _dynamoDbService.GetUserAsync(username);
+        if (user == null)
+        {
+            return NotFound(new { message = "User not found" });
+        }
+
+        return Ok(user);
+    }
+    
+    // ✅ GET: /api/elite/v1 (Get all users)
+    [HttpGet]
+    public async Task<IActionResult> GetUsers()
+    {
+        var users = await _dynamoDbService.GetUsersAsync();
+        return Ok(users);
+    }
+
+    // ✅ POST: /api/elite/v1 (Create a new user)
+    [HttpPost]
+    public async Task<IActionResult> CreateUser([FromBody] User user)
+    {
+        if (string.IsNullOrEmpty(user.Username) || string.IsNullOrEmpty(user.Password) || string.IsNullOrEmpty(user.Email))
+        {
+            return BadRequest(new { message = "Username, Password, and Email are required" });
+        }
+
+        await _dynamoDbService.CreateUserAsync(user);
+        return Ok(new { message = "User created successfully", user });
+    }
 }
