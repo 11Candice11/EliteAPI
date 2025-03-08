@@ -33,20 +33,19 @@ public class EliteController : ControllerBase
     }
 
     /// <summary>
-    /// Create a new user in DynamoDB with a username in the URL
+    /// Create a new user in DynamoDB
     /// </summary>
-    [HttpPost("create")]
+    [HttpPost("create-user")]
     public async Task<IActionResult> CreateUser([FromBody] User user)
     {
-        if (string.IsNullOrEmpty(username) || user == null)
+        if (user == null || string.IsNullOrEmpty(user.Username))
         {
-            return BadRequest("Username is required.");
+            return BadRequest("User data is required.");
         }
 
-        user.Username = username; // Ensure consistency between URL and body
         var success = await _dynamoDbService.CreateUserAsync(user);
 
-        return success ? Ok($"User {username} created successfully.") : StatusCode(500, "Failed to create user.");
+        return success ? Ok($"User {user.Username} created successfully.") : StatusCode(500, "Failed to create user.");
     }
 
     /// <summary>
