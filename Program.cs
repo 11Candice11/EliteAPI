@@ -7,6 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddTransient<EliteServiceManager>();
 builder.Services.AddHttpContextAccessor();
+builder.Configuration.AddEnvironmentVariables();
+
 builder.Services.AddControllers()
     .AddFluentValidation()
     .AddJsonOptions(x => x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
@@ -14,6 +16,7 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHealthChecks();
 
+builder.Services.AddSingleton<DynamoDbService>();
 
 builder.Services.AddCors(options =>
 {
@@ -29,6 +32,8 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IEliteServiceManager, EliteServiceManager>();
+
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
