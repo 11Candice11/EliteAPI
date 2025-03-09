@@ -8,7 +8,8 @@
     ".NETCoreApp,Version=v9.0": {
       "EliteAPI/1.0.0": {
         "dependencies": {
-          "AWSSDK.DynamoDBv2": "4.0.0-preview.10",
+          "AWSSDK.Core": "3.7.402.15",
+          "AWSSDK.DynamoDBv2": "3.7.405.36",
           "DotNetEnv": "3.1.1",
           "FluentValidation.AspNetCore": "11.3.0",
           "Microsoft.AspNetCore.OpenApi": "9.0.0",
@@ -21,22 +22,22 @@
           "EliteAPI.dll": {}
         }
       },
-      "AWSSDK.Core/4.0.0-preview.10": {
+      "AWSSDK.Core/3.7.402.15": {
         "runtime": {
           "lib/net8.0/AWSSDK.Core.dll": {
-            "assemblyVersion": "4.0.0.0",
-            "fileVersion": "4.0.0.0"
+            "assemblyVersion": "3.3.0.0",
+            "fileVersion": "3.7.402.15"
           }
         }
       },
-      "AWSSDK.DynamoDBv2/4.0.0-preview.10": {
+      "AWSSDK.DynamoDBv2/3.7.405.36": {
         "dependencies": {
-          "AWSSDK.Core": "4.0.0-preview.10"
+          "AWSSDK.Core": "3.7.402.15"
         },
         "runtime": {
           "lib/net8.0/AWSSDK.DynamoDBv2.dll": {
-            "assemblyVersion": "4.0.0.0",
-            "fileVersion": "4.0.0.0"
+            "assemblyVersion": "3.3.0.0",
+            "fileVersion": "3.7.405.36"
           }
         }
       },
@@ -1168,19 +1169,19 @@
       "serviceable": false,
       "sha512": ""
     },
-    "AWSSDK.Core/4.0.0-preview.10": {
+    "AWSSDK.Core/3.7.402.15": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-2k6aZZEsuvxCd4d/+dkGIFSeB3CBbasto2D3LHKEFEBgNhVAVvHTrPfWbVL8BT9rYN6zTMUlWr6qUKnfw1YGmA==",
-      "path": "awssdk.core/4.0.0-preview.10",
-      "hashPath": "awssdk.core.4.0.0-preview.10.nupkg.sha512"
+      "sha512": "sha512-DTPVxvjHbL5tb8rcqNxDGaYF+2zON+2OECeGiAqAQidi49EBoRvuXD7USuDFO0+bZpIxtSh1XCMTBysug1OiXw==",
+      "path": "awssdk.core/3.7.402.15",
+      "hashPath": "awssdk.core.3.7.402.15.nupkg.sha512"
     },
-    "AWSSDK.DynamoDBv2/4.0.0-preview.10": {
+    "AWSSDK.DynamoDBv2/3.7.405.36": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-TU1o+1Orp7sT5RFxC2l+NGsZQqvor+hIqPGd+HMuGs7aMvXLe1emB9fAS83hOrLssC49gmgOqJ1iIP5bIDL+Nw==",
-      "path": "awssdk.dynamodbv2/4.0.0-preview.10",
-      "hashPath": "awssdk.dynamodbv2.4.0.0-preview.10.nupkg.sha512"
+      "sha512": "sha512-IfzjMeUpR7xItyzRi+7dheXb+0zskCMOZgXV4tvjvwSLCzegt5MvFlY3huyS1IHX/Y6NFb61Ncz1xOiYNf0Q7g==",
+      "path": "awssdk.dynamodbv2/3.7.405.36",
+      "hashPath": "awssdk.dynamodbv2.3.7.405.36.nupkg.sha512"
     },
     "Azure.Core/1.38.0": {
       "type": "package",

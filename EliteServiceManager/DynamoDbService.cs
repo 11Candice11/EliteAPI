@@ -17,8 +17,8 @@ public class DynamoDbService
     // private readonly DynamoDBContext _dbContext;
     private readonly IDynamoDBContext _dbContext;
     private readonly string _tableName = "Users"; // Change this to your actual table name
-    // private readonly Table _clientsTable;
-    // private readonly Table _clientDataTable;
+    private readonly string _clientsTable = "Clients";
+    private readonly string _clientDataTable = "ClientData";
 
     public DynamoDbService(IConfiguration configuration) {
         var accessKey = Environment.GetEnvironmentVariable("AWS__AccessKey", EnvironmentVariableTarget.Process);
@@ -33,16 +33,13 @@ public class DynamoDbService
         var credentials = new BasicAWSCredentials(accessKey, secretKey);
         var config = new AmazonDynamoDBConfig { RegionEndpoint = RegionEndpoint.GetBySystemName(region) };
         _dynamoDbClient = new AmazonDynamoDBClient(credentials, config);
+        _dbContext = new DynamoDBContext(_dynamoDbClient);
     }
 
     public async Task<bool> VerifyUserAsync(string username, string password, string IDNumber)
     {
         try
         {
-            Console.WriteLine($"[DEBUG] Verifying user: {username}");
-            Console.WriteLine($"[DEBUG] with password: {password}");
-            Console.WriteLine($"[DEBUG] with ID: {IDNumber}");
-
             var request = new GetItemRequest
             {
                 TableName = "Users", // Ensure this matches your DynamoDB table name
@@ -56,15 +53,12 @@ public class DynamoDbService
 
             if (response.Item == null || !response.Item.ContainsKey("Password"))
             {
-                Console.WriteLine("[DEBUG] User not found or missing password field.");
                 return false;
             }
 
             string storedPassword = response.Item["Password"].S;
-            Console.WriteLine($"[DEBUG] Stored password for user {username}: {storedPassword}");
 
             bool isMatch = storedPassword == password; // Ensure you use hashing for security!
-            Console.WriteLine($"[DEBUG] Password match result: {isMatch}");
 
             return isMatch;
         }
@@ -89,9 +83,7 @@ public class DynamoDbService
         {
             throw new ArgumentNullException(nameof(user), "User object cannot be null or missing username.");
         }
-
-        Console.WriteLine($"Creating user: {user.Username}");
-
+        
         var request = new PutItemRequest
         {
             TableName = _tableName,
@@ -149,20 +141,20 @@ public class DynamoDbService
             throw new ArgumentNullException(nameof(username), "Username cannot be null.");
         }
 
-        Console.WriteLine($"Fetching user: {username}");
+
 
         var request = new GetItemRequest
         {
             TableName = _tableName,
             Key = new Dictionary<string, AttributeValue> { { "Username", new AttributeValue { S = username } } }
         };
-
+        
         var response = await _dynamoDbClient.GetItemAsync(request);
         if (!response.Item.Any())
         {
             return null;
         }
-
+        
         return new User
         {
             Username = response.Item["Username"].S,
@@ -185,9 +177,7 @@ public class DynamoDbService
         {
             throw new ArgumentNullException("Username and new IDNumber cannot be null.");
         }
-
-        Console.WriteLine($"Updating IDNumber for user: {idNumber}");
-
+        
         var request = new UpdateItemRequest
         {
             TableName = _tableName,
@@ -216,9 +206,7 @@ public class DynamoDbService
         {
             throw new ArgumentNullException(nameof(username), "Username cannot be null.");
         }
-
-        Console.WriteLine($"Deleting user: {username}");
-
+        
         var request = new DeleteItemRequest
         {
             TableName = _tableName,
@@ -244,11 +232,63 @@ public class DynamoDbService
     {
         var conditions = new List<ScanCondition>
         {
-            new ScanCondition("IDNumber", ScanOperator.Equal, clientId)
+            new ScanCondition("ClientID", ScanOperator.Equal, clientId)
         };
         return await _dbContext.ScanAsync<ClientData>(conditions).GetRemainingAsync();
     }
 
+    /// <summary>
+    /// Retrieves a single client's information by ClientID.
+    /// </summary>
+    /// <param name="clientID">The unique identifier of the client.</param>
+    /// <returns>The client information if found, otherwise null.</returns>
+    public async Task<Client> GetClientAsync(string clientID)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(clientID))
+            {
+                throw new ArgumentNullException(nameof(clientID), "ClientID cannot be null or empty.");
+            }
+
+            var request = new GetItemRequest
+            {
+                TableName = _clientsTable,
+                Key = new Dictionary<string, AttributeValue>
+                {
+                    { "ClientID", new AttributeValue { S = clientID } }
+                }
+            };
+
+            var response = await _dynamoDbClient.GetItemAsync(request);
+
+            if (response.Item == null || response.Item.Count == 0)
+            {
+                return null;
+            } 
+            
+            // Map response to Client model
+            return new Client
+            {
+                ClientID = response.Item["ClientID"].S,
+                FirstNames = response.Item.ContainsKey("FirstNames") ? response.Item["FirstNames"].S : null,
+                Surname = response.Item.ContainsKey("Surname") ? response.Item["Surname"].S : null,
+                RegisteredName = response.Item.ContainsKey("RegisteredName") ? response.Item["RegisteredName"].S : null,
+                Title = response.Item.ContainsKey("Title") ? response.Item["Title"].S : null,
+                Nickname = response.Item.ContainsKey("Nickname") ? response.Item["Nickname"].S : null,
+                AdvisorName = response.Item.ContainsKey("AdvisorName") ? response.Item["AdvisorName"].S : null,
+                Email = response.Item.ContainsKey("Email") ? response.Item["Email"].S : null,
+                CellPhoneNumber = response.Item.ContainsKey("CellPhoneNumber") ? response.Item["CellPhoneNumber"].S : null,
+                ConsultantIDNumber = response.Item.ContainsKey("ConsultantIDNumber") ? response.Item["ConsultantIDNumber"].S : null
+            };
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[ERROR] Exception in GetClientAsync: {ex.Message}");
+            throw;
+        }
+    }
+    
     // Add client
     public async Task AddClient(Client client)
     {

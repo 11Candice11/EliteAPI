@@ -117,17 +117,6 @@
 /Users/candicesiphone16/Documents/GitHub/EliteAPI/bin/Debug/net9.0/runtimes/win-x86/native/Microsoft.Data.SqlClient.SNI.dll
 /Users/candicesiphone16/Documents/GitHub/EliteAPI/bin/Debug/net9.0/runtimes/win/lib/net8.0/System.Diagnostics.EventLog.Messages.dll
 /Users/candicesiphone16/Documents/GitHub/EliteAPI/bin/Debug/net9.0/runtimes/win/lib/net8.0/System.Runtime.Caching.dll
-/Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/obj/Debug/net9.0/EliteAPI.csproj.AssemblyReference.cache
-/Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/obj/Debug/net9.0/EliteAPI.GeneratedMSBuildEditorConfig.editorconfig
-/Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/obj/Debug/net9.0/EliteAPI.AssemblyInfoInputs.cache
-/Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/obj/Debug/net9.0/EliteAPI.AssemblyInfo.cs
-/Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/obj/Debug/net9.0/EliteAPI.csproj.CoreCompileInputs.cache
-/Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/obj/Debug/net9.0/EliteAPI.MvcApplicationPartsAssemblyInfo.cs
-/Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/obj/Debug/net9.0/EliteAPI.MvcApplicationPartsAssemblyInfo.cache
-/Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/obj/Debug/net9.0/EliteAPI.sourcelink.json
-/Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/obj/Debug/net9.0/EliteAPI.dll
-/Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/obj/Debug/net9.0/refint/EliteAPI.dll
-/Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/obj/Debug/net9.0/EliteAPI.pdb
 /Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/bin/Debug/net9.0/appsettings.Development.json
 /Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/bin/Debug/net9.0/appsettings.json
 /Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/bin/Debug/net9.0/EliteAPI.staticwebassets.endpoints.json
@@ -140,6 +129,7 @@
 /Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/bin/Debug/net9.0/AWSSDK.DynamoDBv2.dll
 /Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/bin/Debug/net9.0/Azure.Core.dll
 /Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/bin/Debug/net9.0/Azure.Identity.dll
+/Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/bin/Debug/net9.0/DotNetEnv.dll
 /Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/bin/Debug/net9.0/FluentValidation.dll
 /Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/bin/Debug/net9.0/FluentValidation.AspNetCore.dll
 /Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/bin/Debug/net9.0/FluentValidation.DependencyInjectionExtensions.dll
@@ -157,6 +147,7 @@
 /Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/bin/Debug/net9.0/Microsoft.OpenApi.dll
 /Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/bin/Debug/net9.0/Microsoft.SqlServer.Server.dll
 /Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/bin/Debug/net9.0/Newtonsoft.Json.dll
+/Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/bin/Debug/net9.0/Sprache.dll
 /Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/bin/Debug/net9.0/Swashbuckle.AspNetCore.Swagger.dll
 /Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerGen.dll
 /Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerUI.dll
@@ -184,6 +175,14 @@
 /Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/bin/Debug/net9.0/runtimes/win-x86/native/Microsoft.Data.SqlClient.SNI.dll
 /Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/bin/Debug/net9.0/runtimes/win/lib/net8.0/System.Diagnostics.EventLog.Messages.dll
 /Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/bin/Debug/net9.0/runtimes/win/lib/net8.0/System.Runtime.Caching.dll
+/Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/obj/Debug/net9.0/EliteAPI.csproj.AssemblyReference.cache
+/Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/obj/Debug/net9.0/EliteAPI.GeneratedMSBuildEditorConfig.editorconfig
+/Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/obj/Debug/net9.0/EliteAPI.AssemblyInfoInputs.cache
+/Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/obj/Debug/net9.0/EliteAPI.AssemblyInfo.cs
+/Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/obj/Debug/net9.0/EliteAPI.csproj.CoreCompileInputs.cache
+/Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/obj/Debug/net9.0/EliteAPI.MvcApplicationPartsAssemblyInfo.cs
+/Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/obj/Debug/net9.0/EliteAPI.MvcApplicationPartsAssemblyInfo.cache
+/Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/obj/Debug/net9.0/EliteAPI.sourcelink.json
 /Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/obj/Debug/net9.0/scopedcss/bundle/EliteAPI.styles.css
 /Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/obj/Debug/net9.0/staticwebassets.build.json
 /Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/obj/Debug/net9.0/staticwebassets.development.json
@@ -195,7 +194,8 @@
 /Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/obj/Debug/net9.0/staticwebassets/msbuild.buildTransitive.EliteAPI.props
 /Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/obj/Debug/net9.0/staticwebassets.pack.json
 /Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/obj/Debug/net9.0/EliteAPI.csproj.Up2Date
+/Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/obj/Debug/net9.0/EliteAPI.dll
+/Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/obj/Debug/net9.0/refint/EliteAPI.dll
+/Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/obj/Debug/net9.0/EliteAPI.pdb
 /Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/obj/Debug/net9.0/EliteAPI.genruntimeconfig.cache
 /Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/obj/Debug/net9.0/ref/EliteAPI.dll
-/Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/bin/Debug/net9.0/DotNetEnv.dll
-/Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/bin/Debug/net9.0/Sprache.dll

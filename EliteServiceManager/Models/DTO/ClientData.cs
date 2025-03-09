@@ -4,7 +4,7 @@ using Amazon.DynamoDBv2.DataModel;
 public class ClientData
 {
     [DynamoDBHashKey]
-    public string IDNumber { get; set; } // Links to Client ID
+    public string ClientID { get; set; } // Links to Client ID
     
     [DynamoDBProperty]
     public List<string> ListDates { get; set; } = new List<string>();

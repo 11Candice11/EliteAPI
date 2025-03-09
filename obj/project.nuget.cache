@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "vC8HKSA96TE=",
+  "dgSpecHash": "qwDdB70gea4=",
   "success": true,
   "projectFilePath": "/Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/EliteAPI.csproj",
   "expectedPackageFiles": [
-    "/Users/candicesiphone16/.nuget/packages/awssdk.core/4.0.0-preview.10/awssdk.core.4.0.0-preview.10.nupkg.sha512",
-    "/Users/candicesiphone16/.nuget/packages/awssdk.dynamodbv2/4.0.0-preview.10/awssdk.dynamodbv2.4.0.0-preview.10.nupkg.sha512",
+    "/Users/candicesiphone16/.nuget/packages/awssdk.core/3.7.402.15/awssdk.core.3.7.402.15.nupkg.sha512",
+    "/Users/candicesiphone16/.nuget/packages/awssdk.dynamodbv2/3.7.405.36/awssdk.dynamodbv2.3.7.405.36.nupkg.sha512",
     "/Users/candicesiphone16/.nuget/packages/azure.core/1.38.0/azure.core.1.38.0.nupkg.sha512",
     "/Users/candicesiphone16/.nuget/packages/azure.identity/1.11.4/azure.identity.1.11.4.nupkg.sha512",
     "/Users/candicesiphone16/.nuget/packages/dotnetenv/3.1.1/dotnetenv.3.1.1.nupkg.sha512",

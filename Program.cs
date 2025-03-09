@@ -4,6 +4,7 @@ using DotNetEnv;
 using EliteService.EliteServiceManager;
 using Microsoft.AspNetCore.Diagnostics;
 using FluentValidation.AspNetCore;
+using Amazon.DynamoDBv2;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,16 +38,6 @@ builder.Services.AddSingleton<IEliteServiceManager, EliteServiceManager>();
 
 builder.Services.AddControllers();
 
-//
-// // Add AWS Options from Configuration (appsettings.json or environment variables)
-// builder.Services.AddAWSService<IAmazonDynamoDB>();
-//
-// // Register AmazonDynamoDBClient
-// builder.Services.AddSingleton<IAmazonDynamoDB, AmazonDynamoDBClient>();
-//
-// // Register DynamoDBService
-// builder.Services.AddSingleton<IDynamoDBService, DynamoDBService>();
-
 if (builder.Environment.IsDevelopment())
 {
     Env.Load();
@@ -55,23 +46,7 @@ if (builder.Environment.IsDevelopment())
 var awsAccessKey = builder.Configuration["AWS:AccessKey"];
 var awsSecretKey = builder.Configuration["AWS:SecretKey"];
 
-Console.WriteLine($"AWS Access Key: {awsAccessKey}");
-Console.WriteLine($"AWS Secret Key: {awsSecretKey}");
-
 builder.Configuration.AddEnvironmentVariables();
-
-// Explicitly load environment variables
-// builder.Configuration
-//     .SetBasePath(Directory.GetCurrentDirectory())
-//     .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-//     .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
-//     .AddEnvironmentVariables();  // Ensure this is present
-//
-// // Debugging: Print out values
-// Console.WriteLine($"AWS Access Key from IConfiguration: {builder.Configuration["AWS:AccessKey"]}");
-// Console.WriteLine($"AWS Secret Key from IConfiguration: {builder.Configuration["AWS:SecretKey"]}");
-// Console.WriteLine($"AWS Access Key from Environment: {Environment.GetEnvironmentVariable("AWS__AccessKey")}");
-// Console.WriteLine($"AWS Secret Key from Environment: {Environment.GetEnvironmentVariable("AWS__SecretKey")}");
 
 var app = builder.Build();
 
