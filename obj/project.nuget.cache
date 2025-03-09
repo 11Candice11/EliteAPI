@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "6EbXSBcOGbc=",
+  "dgSpecHash": "22FMVTe+Ik0=",
   "success": true,
-  "projectFilePath": "/Users/candicesiphone16/Documents/GitHub/EliteAPI/EliteAPI.csproj",
+  "projectFilePath": "/Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/EliteAPI.csproj",
   "expectedPackageFiles": [
+    "/Users/candicesiphone16/.nuget/packages/awssdk.core/4.0.0-preview.10/awssdk.core.4.0.0-preview.10.nupkg.sha512",
+    "/Users/candicesiphone16/.nuget/packages/awssdk.dynamodbv2/4.0.0-preview.10/awssdk.dynamodbv2.4.0.0-preview.10.nupkg.sha512",
     "/Users/candicesiphone16/.nuget/packages/azure.core/1.38.0/azure.core.1.38.0.nupkg.sha512",
     "/Users/candicesiphone16/.nuget/packages/azure.identity/1.11.4/azure.identity.1.11.4.nupkg.sha512",
     "/Users/candicesiphone16/.nuget/packages/fluentvalidation/11.5.1/fluentvalidation.11.5.1.nupkg.sha512",

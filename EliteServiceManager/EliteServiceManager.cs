@@ -36,25 +36,32 @@ public class EliteServiceManager : IEliteServiceManager
     {
         try
         {
+            Console.WriteLine($"[DEBUG] VerifyUserAsync called with Username: {username}");
+
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
+                Console.WriteLine("[DEBUG] Database connection opened.");
 
-                string query = "SELECT COUNT(*) FROM Users WHERE Username = @Username AND PasswordHash = @PasswordHash";
-
+                string query = "SELECT COUNT(*) FROM Users WHERE Username = @Username AND Password = @Password";
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Username", username);
-                    command.Parameters.AddWithValue("@PasswordHash", password);
+                    command.Parameters.AddWithValue("@Password", password);
+
+                    Console.WriteLine($"[DEBUG] Query: {query}");
+                    Console.WriteLine($"[DEBUG] Parameters: Username={username}, Password={password}");
 
                     int count = (int)await command.ExecuteScalarAsync();
+                    Console.WriteLine($"[DEBUG] Query executed. Matching users found: {count}");
+
                     return count > 0;
                 }
             }
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error: {ex.Message}");
+            Console.WriteLine($"[ERROR] Exception in VerifyUserAsync: {ex.Message}");
             return false;
         }
     }
