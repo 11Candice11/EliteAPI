@@ -1,7 +1,5 @@
 using System.Net.Http.Headers;
 using System.Text;
-using EliteService.Controller;
-using EliteService.EliteServiceManager.Models.DTO;
 using EliteService.EliteServiceManager.Models.Request;
 using EliteService.EliteServiceManager.Models.Response;
 using Microsoft.AspNetCore.Mvc;
@@ -30,33 +28,6 @@ public class EliteServiceManager : IEliteServiceManager
 
         // Retrieve the connection string from appsettings.json
         _connectionString = configuration.GetConnectionString("DefaultConnection");
-    }
-
-    public async Task<bool> VerifyUserAsync(string username, string password)
-    {
-        try
-        {
-            using (SqlConnection connection = new SqlConnection(_connectionString))
-            {
-                await connection.OpenAsync();
-
-                string query = "SELECT COUNT(*) FROM Users WHERE Username = @Username AND PasswordHash = @PasswordHash";
-
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@Username", username);
-                    command.Parameters.AddWithValue("@PasswordHash", password);
-
-                    int count = (int)await command.ExecuteScalarAsync();
-                    return count > 0;
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error: {ex.Message}");
-            return false;
-        }
     }
     
     // api/entitySummary

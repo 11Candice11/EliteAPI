@@ -1,0 +1,18 @@
+# Ignore environment files
+.env
+
+# Ignore compiled binaries
+bin/
+obj/
+
+# Ignore user-specific files
+.vscode/
+*.user
+*.suo
+*.vsp
+*.sln.cache
+*.sln.docstates
+
+# Ignore logs
+logs/
+*.log
