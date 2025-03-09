@@ -18,7 +18,7 @@
   </ImportGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <PkgMicrosoft_Extensions_ApiDescription_Server Condition=" '$(PkgMicrosoft_Extensions_ApiDescription_Server)' == '' ">/Users/candicesiphone16/.nuget/packages/microsoft.extensions.apidescription.server/6.0.5</PkgMicrosoft_Extensions_ApiDescription_Server>
-    <PkgAWSSDK_Core Condition=" '$(PkgAWSSDK_Core)' == '' ">/Users/candicesiphone16/.nuget/packages/awssdk.core/4.0.0-preview.10</PkgAWSSDK_Core>
-    <PkgAWSSDK_DynamoDBv2 Condition=" '$(PkgAWSSDK_DynamoDBv2)' == '' ">/Users/candicesiphone16/.nuget/packages/awssdk.dynamodbv2/4.0.0-preview.10</PkgAWSSDK_DynamoDBv2>
+    <PkgAWSSDK_Core Condition=" '$(PkgAWSSDK_Core)' == '' ">/Users/candicesiphone16/.nuget/packages/awssdk.core/3.7.402.15</PkgAWSSDK_Core>
+    <PkgAWSSDK_DynamoDBv2 Condition=" '$(PkgAWSSDK_DynamoDBv2)' == '' ">/Users/candicesiphone16/.nuget/packages/awssdk.dynamodbv2/3.7.405.36</PkgAWSSDK_DynamoDBv2>
   </PropertyGroup>
 </Project>

@@ -43,9 +43,13 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "dependencies": {
+            "AWSSDK.Core": {
+              "target": "Package",
+              "version": "[3.7.402.15, )"
+            },
             "AWSSDK.DynamoDBv2": {
               "target": "Package",
-              "version": "[4.0.0-preview.10, )"
+              "version": "[3.7.405.36, )"
             },
             "DotNetEnv": {
               "target": "Package",

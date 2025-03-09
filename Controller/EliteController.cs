@@ -132,13 +132,11 @@ public class EliteController : ControllerBase
     }
 
     [HttpGet("clients")]
-    public async Task<IActionResult> GetClients()
+    public async Task<IActionResult> GetClients([FromBody] string consultantId)
     {
         try
         {
-            var idNumber = User.Claims.FirstOrDefault(c => c.Type == "idNumber")?.Value;
-            if (idNumber == null) return Unauthorized();
-            var clients = await _dynamoDbService.GetClientsByConsultant(idNumber);
+            var clients = await _dynamoDbService.GetClientsByConsultant(consultantId);
             return Ok(clients);
         }
         catch (Exception ex)
@@ -160,21 +158,51 @@ public class EliteController : ControllerBase
             return StatusCode(500, new { error = ex.Message });
         }
     }
+    
+    [HttpGet("client/{clientId}")]
+    public async Task<IActionResult> GetClient(string clientId)
+    {
+        try
+        {
+            var client = await _dynamoDbService.GetClientAsync(clientId);
+            return Ok(client);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { error = ex.Message });
+        }
+    }
 
     [HttpPost("clients")]
     public async Task<IActionResult> AddClient([FromBody] Client client)
     {
         try
         {
-            var consultantIDNumber = User.Claims.FirstOrDefault(c => c.Type == "idNumber")?.Value;
-            if (consultantIDNumber == null) return Unauthorized();
+            // Check if the client object itself is null
+            if (client == null)
+            {
+                return BadRequest("Client object cannot be null.");
+            }
 
-            client.ConsultantIDNumber = consultantIDNumber;
+            // Ensure ConsultantIDNumber is provided
+            if (string.IsNullOrEmpty(client.ConsultantIDNumber))
+            {
+                return BadRequest("Consultant ID Number is required.");
+            }
+
+            // Check if _dynamoDbService is null
+            if (_dynamoDbService == null)
+            {
+                return StatusCode(500, "Internal Server Error: Database service is not initialized.");
+            }
+            
+            // Call DynamoDB service
             await _dynamoDbService.AddClient(client);
             return StatusCode(201, client);
         }
         catch (Exception ex)
         {
+            Console.WriteLine($"[ERROR] Exception in AddClient: {ex.Message}");
             return StatusCode(500, new { error = ex.Message });
         }
     }
@@ -184,10 +212,6 @@ public class EliteController : ControllerBase
     {
         try
         {
-            var consultantIDNumber = User.Claims.FirstOrDefault(c => c.Type == "idNumber")?.Value;
-            if (consultantIDNumber == null) return Unauthorized();
-
-            clientData.ConsultantIDNumber = consultantIDNumber;
             await _dynamoDbService.AddClientData(clientData);
             return StatusCode(201, clientData);
         }
