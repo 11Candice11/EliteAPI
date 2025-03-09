@@ -12,47 +12,43 @@ using EliteService.EliteServiceManager.Models.DTO;
 
 public class DynamoDbService
 {
-    private readonly AmazonDynamoDBClient _dynamoDbClient;
+    // private readonly AmazonDynamoDBClient _dynamoDbClient;
+    private readonly IAmazonDynamoDB _dynamoDbClient;
     // private readonly DynamoDBContext _dbContext;
     private readonly IDynamoDBContext _dbContext;
     private readonly string _tableName = "Users"; // Change this to your actual table name
-    private readonly Table _clientsTable;
-    private readonly Table _clientDataTable;
+    // private readonly Table _clientsTable;
+    // private readonly Table _clientDataTable;
 
-    public DynamoDbService(IConfiguration configuration, AmazonDynamoDBClient dynamoDbClient)
-    {
-        var accessKey = Environment.GetEnvironmentVariable("AWS_ACCESS_KEY_ID") ?? configuration["AWS:AccessKey"];
-        var secretKey = Environment.GetEnvironmentVariable("AWS_SECRET_ACCESS_KEY") ?? configuration["AWS:SecretKey"];
-        var region = Environment.GetEnvironmentVariable("AWS_REGION") ?? configuration["AWS:Region"];
+    public DynamoDbService(IConfiguration configuration) {
+        var accessKey = Environment.GetEnvironmentVariable("AWS__AccessKey", EnvironmentVariableTarget.Process);
+        var secretKey = Environment.GetEnvironmentVariable("AWS__SecretKey", EnvironmentVariableTarget.Process);
+        var region = Environment.GetEnvironmentVariable("AWS__Region", EnvironmentVariableTarget.Process);
 
-        if (string.IsNullOrEmpty(accessKey) || string.IsNullOrEmpty(secretKey) || string.IsNullOrEmpty(region))
+        if (string.IsNullOrEmpty(accessKey) || string.IsNullOrEmpty(secretKey))
         {
-            throw new ArgumentNullException("AWS credentials or region are missing.");
+            throw new Exception("AWS credentials are missing. Check Azure Configuration settings.");
         }
 
-        Console.WriteLine($"Initializing DynamoDB with Region: {region}");
-
-        var awsCredentials = new BasicAWSCredentials(accessKey, secretKey);
-        var amazonDynamoDbConfig = new AmazonDynamoDBConfig { RegionEndpoint = RegionEndpoint.GetBySystemName(region) };
-
-        _dynamoDbClient = new AmazonDynamoDBClient(awsCredentials, amazonDynamoDbConfig);
-        _dbContext = new DynamoDBContext(dynamoDbClient);
-        _clientsTable = Table.LoadTable(_dynamoDbClient, "Clients");
-        _clientDataTable = Table.LoadTable(_dynamoDbClient, "ClientData");
+        var credentials = new BasicAWSCredentials(accessKey, secretKey);
+        var config = new AmazonDynamoDBConfig { RegionEndpoint = RegionEndpoint.GetBySystemName(region) };
+        _dynamoDbClient = new AmazonDynamoDBClient(credentials, config);
     }
 
-    public async Task<bool> VerifyUserAsync(string username, string password)
+    public async Task<bool> VerifyUserAsync(string username, string password, string IDNumber)
     {
         try
         {
             Console.WriteLine($"[DEBUG] Verifying user: {username}");
+            Console.WriteLine($"[DEBUG] with password: {password}");
+            Console.WriteLine($"[DEBUG] with ID: {IDNumber}");
 
             var request = new GetItemRequest
             {
                 TableName = "Users", // Ensure this matches your DynamoDB table name
                 Key = new Dictionary<string, AttributeValue>
                 {
-                    { "Username", new AttributeValue { S = username } }
+                    { "IDNumber", new AttributeValue { S = IDNumber } }
                 }
             };
 
@@ -231,5 +227,37 @@ public class DynamoDbService
 
         var response = await _dynamoDbClient.DeleteItemAsync(request);
         return response.HttpStatusCode == System.Net.HttpStatusCode.OK;
+    }
+    
+    public async Task<List<Client>> GetClientsByConsultant(string consultantIDNumber)
+    {
+        var conditions = new List<ScanCondition>
+        {
+            new ScanCondition("ConsultantIDNumber", ScanOperator.Equal, consultantIDNumber)
+        };
+        return await _dbContext.ScanAsync<Client>(conditions).GetRemainingAsync();
+    }
+    
+    
+    // Fetch client data
+    public async Task<List<ClientData>> GetClientData(string clientId)
+    {
+        var conditions = new List<ScanCondition>
+        {
+            new ScanCondition("IDNumber", ScanOperator.Equal, clientId)
+        };
+        return await _dbContext.ScanAsync<ClientData>(conditions).GetRemainingAsync();
+    }
+
+    // Add client
+    public async Task AddClient(Client client)
+    {
+        await _dbContext.SaveAsync(client);
+    }
+
+    // Add client data
+    public async Task AddClientData(ClientData clientData)
+    {
+        await _dbContext.SaveAsync(clientData);
     }
 }

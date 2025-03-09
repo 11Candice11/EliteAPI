@@ -2,6 +2,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using EliteService.EliteServiceManager;
+using EliteService.EliteServiceManager.Models.DTO;
+using EliteService.EliteServiceManager.Models.Request;
+using EliteService.EliteServiceManager.Models.Response;
 
 [Route("api/elite/v1")]
 [ApiController]
@@ -9,11 +13,13 @@ public class EliteController : ControllerBase
 {
     private readonly ILogger<EliteController> _logger;
     private readonly DynamoDbService _dynamoDbService;
+    private readonly IEliteServiceManager _eliteServceManager;
 
-    public EliteController(DynamoDbService dynamoDbService, ILogger<EliteController> logger)
+    public EliteController(DynamoDbService dynamoDbService, ILogger<EliteController> logger, IEliteServiceManager eliteServceManager)
     {
         _dynamoDbService = dynamoDbService;
         _logger = logger;
+        _eliteServceManager = eliteServceManager;
     }
 
     /// <summary>
@@ -27,10 +33,11 @@ public class EliteController : ControllerBase
             return BadRequest("Invalid user input.");
         }
 
-        bool isValid = await _dynamoDbService.VerifyUserAsync(user.Username, user.Password);
-        bool isValid = await _dynamoDbService.VerifyUserAsync(user.Username, user.Password);
+        bool isValid = await _dynamoDbService.VerifyUserAsync(user.Username, user.Password, user.IDNumber);
 
-        return isValid ? Ok(new { Message = "Login successful!" }) : Unauthorized(new { Message = "Invalid username or password." });
+        return isValid
+            ? Ok(new { Message = "Login successful!" })
+            : Unauthorized(new { Message = "Invalid username or password." });
     }
 
     /// <summary>
@@ -55,7 +62,7 @@ public class EliteController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAllUsers()
     {
-        var users = await _dynamoDbService.GetAllUsersAsync();
+        var users = await _dynamoDbService.GetUsersAsync();
 
         return users.Count > 0 ? Ok(users) : NoContent();
     }
@@ -77,17 +84,17 @@ public class EliteController : ControllerBase
     }
 
     /// <summary>
-    /// Update user email
+    /// Update user ID Number
     /// </summary>
-    [HttpPut("update-user-email")]
-    public async Task<IActionResult> UpdateUserEmail([FromBody] UpdateEmailRequest request)
+    [HttpPut("update-user-id")]
+    public async Task<IActionResult> UpdateUserEmail([FromBody] UpdateIDNumberRequest request)
     {
-        if (string.IsNullOrEmpty(request.Username) || string.IsNullOrEmpty(request.NewEmail))
+        if (string.IsNullOrEmpty(request.IDNumber) || string.IsNullOrEmpty(request.NewIDNumber))
         {
             return BadRequest("Username and new email are required.");
         }
 
-        var success = await _dynamoDbService.UpdateUserEmailAsync(request.Username, request.NewEmail);
+        var success = await _dynamoDbService.UpdateUserIDNumberAsync(request.IDNumber, request.NewIDNumber);
         return success ? Ok("Email updated successfully.") : StatusCode(500, "Failed to update email.");
     }
 
@@ -106,19 +113,6 @@ public class EliteController : ControllerBase
         return success ? Ok("User deleted successfully.") : StatusCode(500, "Failed to delete user.");
     }
 
-    // ✅ POST: /api/elite/v1 (Create a new user)
-    [HttpPost("create")]
-    public async Task<IActionResult> CreateUser([FromBody] User user)
-    {
-        if (string.IsNullOrEmpty(user.Username) || string.IsNullOrEmpty(user.Password) || string.IsNullOrEmpty(user.IDNumber))
-        {
-            return BadRequest(new { message = "Username, Password, and IDNumber are required" });
-        }
-
-        var responseModel = await _dynamoDbService.GetClientProfile(request);
-
-        return responseModel != null ? Ok(responseModel) : NoContent();
-    }
 
     // </summary>
     [HttpPost("get-client-profile")]
@@ -132,41 +126,11 @@ public class EliteController : ControllerBase
             return BadRequest("Client profile request cannot be null.");
         }
 
-        var responseModel = await _dynamoDbService.GetClientProfile(request);
+        var responseModel = await _eliteServceManager.GetClientProfile(request);
 
         return responseModel != null ? Ok(responseModel) : NoContent();
     }
 
-    /// <summary>
-    /// Update user IDNumber
-    /// </summary>
-    [HttpPut("update-user-id")]
-    public async Task<IActionResult> UpdateUserIDNumber([FromBody] UpdateIDNumberRequest request)
-    {
-        if (request == null || string.IsNullOrEmpty(request.IDNumber) || string.IsNullOrEmpty(request.NewIDNumber))
-        {
-            return BadRequest("Username and new IDNumber are required.");
-        }
-
-        var success = await _dynamoDbService.UpdateUserIDNumberAsync(request.IDNumber, request.NewIDNumber);
-        return success ? Ok("IDNumber updated successfully.") : StatusCode(500, "Failed to update IDNumber.");
-    }
-
-    /// <summary>
-    /// Delete a user by username
-    /// </summary>
-    [HttpDelete("delete-user/{username}")]
-    public async Task<IActionResult> DeleteUser(string username)
-    {
-        if (string.IsNullOrEmpty(username))
-        {
-            return BadRequest("Username is required.");
-        }
-
-        var success = await _dynamoDbService.DeleteUserAsync(username);
-        return success ? Ok("User deleted successfully.") : StatusCode(500, "Failed to delete user.");
-    }
-    
     [HttpGet("clients")]
     public async Task<IActionResult> GetClients()
     {
@@ -204,7 +168,7 @@ public class EliteController : ControllerBase
         {
             var consultantIDNumber = User.Claims.FirstOrDefault(c => c.Type == "idNumber")?.Value;
             if (consultantIDNumber == null) return Unauthorized();
-            
+
             client.ConsultantIDNumber = consultantIDNumber;
             await _dynamoDbService.AddClient(client);
             return StatusCode(201, client);
@@ -222,102 +186,7 @@ public class EliteController : ControllerBase
         {
             var consultantIDNumber = User.Claims.FirstOrDefault(c => c.Type == "idNumber")?.Value;
             if (consultantIDNumber == null) return Unauthorized();
-            
-            clientData.ConsultantIDNumber = consultantIDNumber;
-            await _dynamoDbService.AddClientData(clientData);
-            return StatusCode(201, clientData);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, new { error = ex.Message });
-        }
-    }
-    /// <summary>
-    /// Update user IDNumber
-    /// </summary>
-    [HttpPut("update-user-id")]
-    public async Task<IActionResult> UpdateUserIDNumber([FromBody] UpdateIDNumberRequest request)
-    {
-        if (request == null || string.IsNullOrEmpty(request.IDNumber) || string.IsNullOrEmpty(request.NewIDNumber))
-        {
-            return BadRequest("Username and new IDNumber are required.");
-        }
 
-        var success = await _dynamoDbService.UpdateUserIDNumberAsync(request.IDNumber, request.NewIDNumber);
-        return success ? Ok("IDNumber updated successfully.") : StatusCode(500, "Failed to update IDNumber.");
-    }
-
-    /// <summary>
-    /// Delete a user by username
-    /// </summary>
-    [HttpDelete("delete-user/{username}")]
-    public async Task<IActionResult> DeleteUser(string username)
-    {
-        if (string.IsNullOrEmpty(username))
-        {
-            return BadRequest("Username is required.");
-        }
-
-        var success = await _dynamoDbService.DeleteUserAsync(username);
-        return success ? Ok("User deleted successfully.") : StatusCode(500, "Failed to delete user.");
-    }
-    
-    [HttpGet("clients")]
-    public async Task<IActionResult> GetClients()
-    {
-        try
-        {
-            var idNumber = User.Claims.FirstOrDefault(c => c.Type == "idNumber")?.Value;
-            if (idNumber == null) return Unauthorized();
-            var clients = await _dynamoDbService.GetClientsByConsultant(idNumber);
-            return Ok(clients);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, new { error = ex.Message });
-        }
-    }
-
-    [HttpGet("client-data/{clientId}")]
-    public async Task<IActionResult> GetClientData(string clientId)
-    {
-        try
-        {
-            var clientData = await _dynamoDbService.GetClientData(clientId);
-            return Ok(clientData);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, new { error = ex.Message });
-        }
-    }
-
-    [HttpPost("clients")]
-    public async Task<IActionResult> AddClient([FromBody] Client client)
-    {
-        try
-        {
-            var consultantIDNumber = User.Claims.FirstOrDefault(c => c.Type == "idNumber")?.Value;
-            if (consultantIDNumber == null) return Unauthorized();
-            
-            client.ConsultantIDNumber = consultantIDNumber;
-            await _dynamoDbService.AddClient(client);
-            return StatusCode(201, client);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, new { error = ex.Message });
-        }
-    }
-
-    [HttpPost("client-data")]
-    public async Task<IActionResult> AddClientData([FromBody] ClientData clientData)
-    {
-        try
-        {
-            var consultantIDNumber = User.Claims.FirstOrDefault(c => c.Type == "idNumber")?.Value;
-            if (consultantIDNumber == null) return Unauthorized();
-            
             clientData.ConsultantIDNumber = consultantIDNumber;
             await _dynamoDbService.AddClientData(clientData);
             return StatusCode(201, clientData);

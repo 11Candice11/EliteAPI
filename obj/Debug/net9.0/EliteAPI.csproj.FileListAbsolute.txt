@@ -197,3 +197,5 @@
 /Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/obj/Debug/net9.0/EliteAPI.csproj.Up2Date
 /Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/obj/Debug/net9.0/EliteAPI.genruntimeconfig.cache
 /Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/obj/Debug/net9.0/ref/EliteAPI.dll
+/Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/bin/Debug/net9.0/DotNetEnv.dll
+/Users/candicesiphone16/Library/Mobile Documents/com~apple~CloudDocs/Git/EliteAPI/bin/Debug/net9.0/Sprache.dll
