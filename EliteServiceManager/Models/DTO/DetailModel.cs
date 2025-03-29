@@ -2,9 +2,10 @@ namespace EliteService.EliteServiceManager.Models.DTO;
 
 public class DetailModel
 {
+    public string? IDNumber { get; set; }
     public string InstrumentName { get; set; }
-    public string ProductDescription { get; set; }
-    public string ReportingName { get; set; }
+    public string? ProductDescription { get; set; }
+    public string? ReportingName { get; set; }
     public string ReferenceNumber { get; set; }
     public DateTime InceptionDate { get; set; }
     public decimal InitialContributionAmount { get; set; }

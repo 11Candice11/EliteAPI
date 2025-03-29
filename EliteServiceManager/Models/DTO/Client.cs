@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class Client
 {
     [DynamoDBHashKey]
-    public string ClientID { get; set; }
+    public string IDNumber { get; set; }
 
     [DynamoDBProperty]
     public string FirstNames { get; set; }

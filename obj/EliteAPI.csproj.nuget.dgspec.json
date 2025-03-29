@@ -51,6 +51,10 @@
               "target": "Package",
               "version": "[3.7.405.36, )"
             },
+            "AWSSDK.Extensions.NETCore.Setup": {
+              "target": "Package",
+              "version": "[3.7.400, )"
+            },
             "DotNetEnv": {
               "target": "Package",
               "version": "[3.1.1, )"
