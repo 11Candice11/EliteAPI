@@ -5,10 +5,14 @@ using EliteService.EliteServiceManager;
 using Microsoft.AspNetCore.Diagnostics;
 using FluentValidation.AspNetCore;
 using Amazon.DynamoDBv2;
+using Amazon.Extensions.NETCore.Setup;
+using EliteService.EliteServiceManager.Services;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddAWSService<IAmazonDynamoDB>();
+builder.Services.AddHttpClient<PdfRetrievalService>();
 builder.Services.AddTransient<EliteServiceManager>();
+builder.Services.AddScoped<ClientService>(); // ✅ Register ClientService
 builder.Services.AddHttpContextAccessor();
 builder.Configuration.AddEnvironmentVariables();
 
@@ -21,16 +25,26 @@ builder.Services.AddHealthChecks();
 
 builder.Services.AddSingleton<DynamoDbService>();
 
+// builder.Services.AddCors(options =>
+// {
+//     options.AddPolicy("AllowSpecificOrigins",
+//         builder =>
+//         {
+//             builder.WithOrigins("http://localhost:8080",
+//                     "https://eliteui-gdbgddepedcagxgn.southafricanorth-01.azurewebsites.net")
+//                 .AllowAnyHeader()
+//                 .AllowAnyMethod();
+//         });
+// });
+
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowSpecificOrigins",
-        builder =>
-        {
-            builder.WithOrigins("http://localhost:8080",
-                    "https://eliteui-gdbgddepedcagxgn.southafricanorth-01.azurewebsites.net")
-                .AllowAnyHeader()
-                .AllowAnyMethod();
-        });
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
 });
 
 builder.Services.AddSwaggerGen();
@@ -42,9 +56,6 @@ if (builder.Environment.IsDevelopment())
 {
     Env.Load();
 }
-
-var awsAccessKey = builder.Configuration["AWS:AccessKey"];
-var awsSecretKey = builder.Configuration["AWS:SecretKey"];
 
 builder.Configuration.AddEnvironmentVariables();
 
@@ -60,7 +71,7 @@ app.UseSwaggerUI(c =>
 });
 
 // Enable the CORS policy
-app.UseCors("AllowSpecificOrigins");
+app.UseCors("AllowAll");
 
 app.UseEndpoints(endpoints =>
 {

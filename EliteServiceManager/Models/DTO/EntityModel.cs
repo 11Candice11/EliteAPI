@@ -10,5 +10,7 @@ public class EntityModel
     public string AdvisorName { get; set; }
     public string Email { get; set; }
     public string CellPhoneNumber { get; set; }
-    public List<DetailModel> DetailModels { get; set; }
+    public string? IDNumber { get; set; }
+    public string? ConsultantIDNumber { get; set; }
+    public List<DetailModel>? DetailModels { get; set; }
 }

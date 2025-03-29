@@ -6,6 +6,7 @@ using EliteService.EliteServiceManager;
 using EliteService.EliteServiceManager.Models.DTO;
 using EliteService.EliteServiceManager.Models.Request;
 using EliteService.EliteServiceManager.Models.Response;
+using EliteService.EliteServiceManager.Services;
 
 [Route("api/elite/v1")]
 [ApiController]
@@ -14,18 +15,23 @@ public class EliteController : ControllerBase
     private readonly ILogger<EliteController> _logger;
     private readonly DynamoDbService _dynamoDbService;
     private readonly IEliteServiceManager _eliteServceManager;
+    private readonly ClientService _clientService;
 
-    public EliteController(DynamoDbService dynamoDbService, ILogger<EliteController> logger, IEliteServiceManager eliteServceManager)
+    public EliteController(DynamoDbService dynamoDbService, ILogger<EliteController> logger, IEliteServiceManager eliteServceManager, ClientService clientService)
     {
         _dynamoDbService = dynamoDbService;
         _logger = logger;
         _eliteServceManager = eliteServceManager;
+        _clientService = clientService;
     }
 
     /// <summary>
     /// Login endpoint
     /// </summary>
     [HttpPost("login")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ClientProfileResponse))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> Login([FromBody] User user)
     {
         if (user == null || string.IsNullOrEmpty(user.Username) || string.IsNullOrEmpty(user.Password))
@@ -60,6 +66,9 @@ public class EliteController : ControllerBase
     /// Get all users from DynamoDB
     /// </summary>
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ClientProfileResponse))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> GetAllUsers()
     {
         var users = await _dynamoDbService.GetUsersAsync();
@@ -71,6 +80,9 @@ public class EliteController : ControllerBase
     /// Retrieve a user by username
     /// </summary>
     [HttpGet("{username}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ClientProfileResponse))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> GetUser(string username)
     {
         if (string.IsNullOrEmpty(username))
@@ -87,6 +99,9 @@ public class EliteController : ControllerBase
     /// Update user ID Number
     /// </summary>
     [HttpPut("update-user-id")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ClientProfileResponse))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> UpdateUserEmail([FromBody] UpdateIDNumberRequest request)
     {
         if (string.IsNullOrEmpty(request.IDNumber) || string.IsNullOrEmpty(request.NewIDNumber))
@@ -102,6 +117,9 @@ public class EliteController : ControllerBase
     /// Delete a user by username
     /// </summary>
     [HttpDelete("delete-user/{username}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ClientProfileResponse))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> DeleteUser(string username)
     {
         if (string.IsNullOrEmpty(username))
@@ -132,6 +150,9 @@ public class EliteController : ControllerBase
     }
 
     [HttpGet("clients")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ClientProfileResponse))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> GetClients([FromBody] string consultantId)
     {
         try
@@ -146,6 +167,9 @@ public class EliteController : ControllerBase
     }
 
     [HttpGet("client-data/{clientId}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ClientProfileResponse))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> GetClientData(string clientId)
     {
         try
@@ -160,6 +184,9 @@ public class EliteController : ControllerBase
     }
     
     [HttpGet("client/{clientId}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ClientProfileResponse))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> GetClient(string clientId)
     {
         try
@@ -172,7 +199,35 @@ public class EliteController : ControllerBase
             return StatusCode(500, new { error = ex.Message });
         }
     }
+    
+    [HttpPost("save-client")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ClientProfileResponse))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public async Task<IActionResult> SaveClient([FromBody] ClientProfileResponse clientData)
+    {
+        var result = await _clientService.SaveClient(clientData);
 
+        if (result)
+            return Ok(new { Message = "Client data saved successfully" });
+
+        return StatusCode(500, "Failed to save client data");
+    }
+
+    [HttpGet("get-client-info/{idNumber}")]
+    public async Task<IActionResult> GetClientInfo(string idNumber)
+    {
+        if (string.IsNullOrEmpty(idNumber))
+            return BadRequest("ID Number cannot be empty");
+
+        var clientData = await _clientService.GetClientInfo(idNumber);
+
+        if (clientData == null)
+            return NotFound($"Client with ID Number '{idNumber}' not found");
+
+        return Ok(clientData);
+    }
+    
     [HttpPost("clients")]
     public async Task<IActionResult> AddClient([FromBody] Client client)
     {
@@ -183,13 +238,13 @@ public class EliteController : ControllerBase
             {
                 return BadRequest("Client object cannot be null.");
             }
-
+    
             // Ensure ConsultantIDNumber is provided
-            if (string.IsNullOrEmpty(client.ConsultantIDNumber))
+            if (string.IsNullOrEmpty(client.IDNumber))
             {
                 return BadRequest("Consultant ID Number is required.");
             }
-
+    
             // Check if _dynamoDbService is null
             if (_dynamoDbService == null)
             {

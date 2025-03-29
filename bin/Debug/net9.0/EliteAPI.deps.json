@@ -10,6 +10,7 @@
         "dependencies": {
           "AWSSDK.Core": "3.7.402.15",
           "AWSSDK.DynamoDBv2": "3.7.405.36",
+          "AWSSDK.Extensions.NETCore.Setup": "3.7.400",
           "DotNetEnv": "3.1.1",
           "FluentValidation.AspNetCore": "11.3.0",
           "Microsoft.AspNetCore.OpenApi": "9.0.0",
@@ -38,6 +39,20 @@
           "lib/net8.0/AWSSDK.DynamoDBv2.dll": {
             "assemblyVersion": "3.3.0.0",
             "fileVersion": "3.7.405.36"
+          }
+        }
+      },
+      "AWSSDK.Extensions.NETCore.Setup/3.7.400": {
+        "dependencies": {
+          "AWSSDK.Core": "3.7.402.15",
+          "Microsoft.Extensions.Configuration.Abstractions": "2.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "2.1.0",
+          "Microsoft.Extensions.Logging.Abstractions": "2.0.0"
+        },
+        "runtime": {
+          "lib/net8.0/AWSSDK.Extensions.NETCore.Setup.dll": {
+            "assemblyVersion": "3.3.0.0",
+            "fileVersion": "3.7.400.0"
           }
         }
       },
@@ -79,7 +94,7 @@
       "DotNetEnv/3.1.1": {
         "dependencies": {
           "Microsoft.Extensions.Configuration": "1.1.2",
-          "Microsoft.Extensions.Configuration.Abstractions": "1.1.2",
+          "Microsoft.Extensions.Configuration.Abstractions": "2.0.0",
           "NETStandard.Library": "1.6.1",
           "Sprache": "2.3.1",
           "System.Net.Http": "4.3.4",
@@ -235,20 +250,19 @@
       "Microsoft.Extensions.ApiDescription.Server/6.0.5": {},
       "Microsoft.Extensions.Configuration/1.1.2": {
         "dependencies": {
-          "Microsoft.Extensions.Configuration.Abstractions": "1.1.2",
+          "Microsoft.Extensions.Configuration.Abstractions": "2.0.0",
           "NETStandard.Library": "1.6.1"
         }
       },
-      "Microsoft.Extensions.Configuration.Abstractions/1.1.2": {
+      "Microsoft.Extensions.Configuration.Abstractions/2.0.0": {
         "dependencies": {
-          "Microsoft.Extensions.Primitives": "1.1.1",
-          "NETStandard.Library": "1.6.1"
+          "Microsoft.Extensions.Primitives": "2.0.0"
         }
       },
       "Microsoft.Extensions.DependencyInjection.Abstractions/2.1.0": {},
-      "Microsoft.Extensions.Primitives/1.1.1": {
+      "Microsoft.Extensions.Logging.Abstractions/2.0.0": {},
+      "Microsoft.Extensions.Primitives/2.0.0": {
         "dependencies": {
-          "NETStandard.Library": "1.6.1",
           "System.Runtime.CompilerServices.Unsafe": "6.0.0"
         }
       },
@@ -1183,6 +1197,13 @@
       "path": "awssdk.dynamodbv2/3.7.405.36",
       "hashPath": "awssdk.dynamodbv2.3.7.405.36.nupkg.sha512"
     },
+    "AWSSDK.Extensions.NETCore.Setup/3.7.400": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-i4ta6n+QuGKt1RBCIbRU2wohz5DYJ+wRPR9EI7YkzC8eaWSbmMXTNL+s4HpYUsoxM7uyUrYoW0gC52/9KnK7xw==",
+      "path": "awssdk.extensions.netcore.setup/3.7.400",
+      "hashPath": "awssdk.extensions.netcore.setup.3.7.400.nupkg.sha512"
+    },
     "Azure.Core/1.38.0": {
       "type": "package",
       "serviceable": true,
@@ -1274,12 +1295,12 @@
       "path": "microsoft.extensions.configuration/1.1.2",
       "hashPath": "microsoft.extensions.configuration.1.1.2.nupkg.sha512"
     },
-    "Microsoft.Extensions.Configuration.Abstractions/1.1.2": {
+    "Microsoft.Extensions.Configuration.Abstractions/2.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-I1BRk2OCjOondHFc0flHFMxLTbsOPQdB0CxexkZOHcAD1oAWC2KcpxvmmQ07kLUcYKbtSdtvPkm7YPdw8bdJ9Q==",
-      "path": "microsoft.extensions.configuration.abstractions/1.1.2",
-      "hashPath": "microsoft.extensions.configuration.abstractions.1.1.2.nupkg.sha512"
+      "sha512": "sha512-rHFrXqMIvQNq51H8RYTO4IWmDOYh8NUzyqGlh0xHWTP6XYnKk7Ryinys2uDs+Vu88b3AMlM3gBBSs78m6OQpYQ==",
+      "path": "microsoft.extensions.configuration.abstractions/2.0.0",
+      "hashPath": "microsoft.extensions.configuration.abstractions.2.0.0.nupkg.sha512"
     },
     "Microsoft.Extensions.DependencyInjection.Abstractions/2.1.0": {
       "type": "package",
@@ -1288,12 +1309,19 @@
       "path": "microsoft.extensions.dependencyinjection.abstractions/2.1.0",
       "hashPath": "microsoft.extensions.dependencyinjection.abstractions.2.1.0.nupkg.sha512"
     },
-    "Microsoft.Extensions.Primitives/1.1.1": {
+    "Microsoft.Extensions.Logging.Abstractions/2.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-MrsHOyFpwT+LBzGWp/Oq3pV1Vku8FYE6hgO+2XR0WBRtoI9EaJcpRbtBabS7pXYrkIN1/LOXACpZ9Stqmbrs6A==",
-      "path": "microsoft.extensions.primitives/1.1.1",
-      "hashPath": "microsoft.extensions.primitives.1.1.1.nupkg.sha512"
+      "sha512": "sha512-6ZCllUYGFukkymSTx3Yr0G/ajRxoNJp7/FqSxSB4fGISST54ifBhgu4Nc0ItGi3i6DqwuNd8SUyObmiC++AO2Q==",
+      "path": "microsoft.extensions.logging.abstractions/2.0.0",
+      "hashPath": "microsoft.extensions.logging.abstractions.2.0.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Primitives/2.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ukg53qNlqTrK38WA30b5qhw0GD7y3jdI9PHHASjdKyTcBHTevFM2o23tyk3pWCgAV27Bbkm+CPQ2zUe1ZOuYSA==",
+      "path": "microsoft.extensions.primitives/2.0.0",
+      "hashPath": "microsoft.extensions.primitives.2.0.0.nupkg.sha512"
     },
     "Microsoft.Identity.Client/4.61.3": {
       "type": "package",
