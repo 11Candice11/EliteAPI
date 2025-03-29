@@ -410,7 +410,7 @@ public class DynamoDbService
                 Key = item.ContainsKey("InstrumentKey") ? item["InstrumentKey"].S : null,
                 IsinNumber = item["IsinNumber"].S,
                 InstrumentName = item.ContainsKey("InstrumentName") ? item["InstrumentName"].S : null,
-                ClientId = item.ContainsKey("ClientId") ? item["ClientId"].S : null,
+                ClientID = item.ContainsKey("ClientId") ? item["ClientId"].S : null,
                 LastUpdated = item.ContainsKey("LastUpdated") ? item["LastUpdated"].S : null,
                 Rating6Months = item.ContainsKey("Rating6Months") ? item["Rating6Months"].S : null,
                 Rating1Year = item.ContainsKey("Rating1Year") ? item["Rating1Year"].S : null,
