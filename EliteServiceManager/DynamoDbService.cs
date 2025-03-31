@@ -361,10 +361,10 @@ public class DynamoDbService
         var request = new QueryRequest
         {
             TableName = "PortfolioRatings",
-            KeyConditionExpression = "ClientID = :clientId",
+            KeyConditionExpression = "InstrumentKey = :instrumentKey",
             ExpressionAttributeValues = new Dictionary<string, AttributeValue>
             {
-                { ":ClientID", new AttributeValue { S = clientId } }
+                { ":instrumentKey", new AttributeValue { S = clientId } }
             }
         };
 
@@ -379,7 +379,6 @@ public class DynamoDbService
                 Key = item.ContainsKey("InstrumentKey") ? item["InstrumentKey"].S : null,
                 IsinNumber = item["IsinNumber"].S,
                 InstrumentName = item.ContainsKey("InstrumentName") ? item["InstrumentName"].S : null,
-                ClientID = item.ContainsKey("ClientID") ? item["ClientID"].S : null,
                 LastUpdated = item.ContainsKey("LastUpdated") ? item["LastUpdated"].S : null,
                 Rating6Months = item.ContainsKey("Rating6Months") ? item["Rating6Months"].S : null,
                 Rating1Year = item.ContainsKey("Rating1Year") ? item["Rating1Year"].S : null,
@@ -410,7 +409,6 @@ public class DynamoDbService
                 Key = item.ContainsKey("InstrumentKey") ? item["InstrumentKey"].S : null,
                 IsinNumber = item["IsinNumber"].S,
                 InstrumentName = item.ContainsKey("InstrumentName") ? item["InstrumentName"].S : null,
-                ClientID = item.ContainsKey("ClientId") ? item["ClientId"].S : null,
                 LastUpdated = item.ContainsKey("LastUpdated") ? item["LastUpdated"].S : null,
                 Rating6Months = item.ContainsKey("Rating6Months") ? item["Rating6Months"].S : null,
                 Rating1Year = item.ContainsKey("Rating1Year") ? item["Rating1Year"].S : null,
