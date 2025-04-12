@@ -5,8 +5,11 @@ using System.Collections.Generic;
 [DynamoDBTable("Clients")]
 public class Client
 {
-    [DynamoDBHashKey]
+    [DynamoDBHashKey("ClientID")]
     public string IDNumber { get; set; }
+    
+    [DynamoDBProperty]
+    public string ConsultantIDNumber { get; set; } // Foreign key linking to Users
 
     [DynamoDBProperty]
     public string FirstNames { get; set; }
@@ -32,6 +35,4 @@ public class Client
     [DynamoDBProperty]
     public string CellPhoneNumber { get; set; }
     
-    [DynamoDBProperty]
-    public string ConsultantIDNumber { get; set; } // Foreign key linking to Users
 }

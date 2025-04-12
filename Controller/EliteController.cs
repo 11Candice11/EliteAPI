@@ -149,15 +149,15 @@ public class EliteController : ControllerBase
         return responseModel != null ? Ok(responseModel) : NoContent();
     }
 
-    [HttpGet("clients")]
+    [HttpPost("get-clients")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ClientProfileResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public async Task<IActionResult> GetClients([FromBody] string consultantId)
+    public async Task<IActionResult> GetClients([FromBody] ConsultantRequest request)
     {
         try
         {
-            var clients = await _dynamoDbService.GetClientsByConsultant(consultantId);
+            var clients = await _dynamoDbService.GetClientsByConsultant(request.ConsultantIDNumber);
             return Ok(clients);
         }
         catch (Exception ex)
