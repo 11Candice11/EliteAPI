@@ -23,6 +23,7 @@ public class DynamoDbService
     private readonly string _tableName = "Users"; // Change this to your actual table name
     private readonly string _clientsTable = "EntityModel";
     private readonly string _clientDataTable = "ClientData";
+    private readonly string _clientInfoTable = "Clients";
 
     public DynamoDbService(IConfiguration configuration)
     {
@@ -316,10 +317,19 @@ public class DynamoDbService
 
         var request = new PutItemRequest
         {
-            TableName = _clientsTable,
+            TableName = _clientInfoTable,
             Item = new Dictionary<string, AttributeValue>
             {
-                { "IDNumber", new AttributeValue { S = client.IDNumber } },
+                { "ClientID", new AttributeValue { S = client.IDNumber } },
+                { "FirstNames", new AttributeValue { S = client.FirstNames ?? "" } },
+                { "Surname", new AttributeValue { S = client.Surname ?? "" } },
+                { "RegisteredName", new AttributeValue { S = client.RegisteredName ?? "" } },
+                { "Title", new AttributeValue { S = client.Title ?? "" } },
+                { "Nickname", new AttributeValue { S = client.Nickname ?? "" } },
+                { "AdvisorName", new AttributeValue { S = client.AdvisorName ?? "" } },
+                { "Email", new AttributeValue { S = client.Email ?? "" } },
+                { "CellPhoneNumber", new AttributeValue { S = client.CellPhoneNumber ?? "" } },
+                { "ConsultantIDNumber", new AttributeValue { S = client.ConsultantIDNumber ?? "" } }
             }
         };
 
@@ -419,21 +429,5 @@ public class DynamoDbService
         }
 
         return result;
-    }
-    
-    
-    // HELPERS
-    
-    private static string GetDeterministicHash(string input)
-    {
-        if (string.IsNullOrWhiteSpace(input))
-            return "unknown";
-
-        using (var sha256 = System.Security.Cryptography.SHA256.Create())
-        {
-            var bytes = System.Text.Encoding.UTF8.GetBytes(input);
-            var hash = sha256.ComputeHash(bytes);
-            return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
-        }
     }
 }
